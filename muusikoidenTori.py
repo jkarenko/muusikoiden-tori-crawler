@@ -16,7 +16,11 @@ class Item:
         self.link = link
 
     def __str__(self):
-        return f"{self.name} - {self.price} - {self.link}"
+        # return f"{self.name} - {self.price} - {self.link}"
+        return [self.name, self.price, self.link]
+
+    def __getitem__(self, item):
+        return self.__dict__[item]
 
 
 def get_items_from_url(url, query_type):
@@ -38,8 +42,9 @@ def get_items_from_url(url, query_type):
     return items_list
 
 
-def search(query, query_type):
-    url = BASE_URL + SEARCH_URL + query + QUERY_PREFIX + query_type
+def search(query, query_type, price_range):
+    price_range = f"&price_min={price_range[0]}&price_max={price_range[1]}"
+    url = BASE_URL + SEARCH_URL + query + QUERY_PREFIX + query_type + price_range
     return get_items_from_url(url, query_type)
 
 
